@@ -76,7 +76,7 @@ form .form-inner {
 
 .form-inner .form-remember-me-group {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     margin: 4px 0px 24px 0px;
 }
