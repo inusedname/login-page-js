@@ -83,7 +83,7 @@ form .form-inner {
 
 .form-remember-me-group input[type="checkbox"] {
     margin-right: 8px;
-    size: 4px 4px;
+    accent-color: #d73d6b;
 }
 
 .form-remember-me-group label {

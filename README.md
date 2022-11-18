@@ -20,11 +20,17 @@ Before you continue, ensure you meet the following requirements:
     * You have installed the latest version of NodeJS.
 
 1. Clone project:
-`git clone https://gitlab.com/inusedname/login-page-reactjs.git`
+```
+git clone https://gitlab.com/inusedname/login-page-reactjs.git
+```
 2. Install required dependencies:
-`npm install`
+```
+npm install
+```
 3. Run app:
-`npm start`
+```
+npm start
+```
 
 ## References:
 https://www.youtube.com/watch?v=91qEdc6dSUs
