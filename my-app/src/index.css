@@ -40,14 +40,21 @@ form .form-inner {
     z-index: 1;
 }
 
-form .form-inner h2 {
+.form-inner h2 {
     font-family: 'Playfair Display', serif;
     font-size: 24px;
     text-align: center;
     margin-bottom: 30px;
 }
 
-form .form-inner .form-text-input-group {
+.form-inner .form-error-status {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.form-inner .form-text-input-group {
     display: flex;
     align-items: center;
     width: 275px;
@@ -56,20 +63,33 @@ form .form-inner .form-text-input-group {
     padding: 12px 15px;
 }
 
-.form-inner .form-text-input-group input {
+.form-text-input-group input {
     padding-inline-start: 10px;
     display: block;
     width: 100%;
 }
 
-.form-inner .form-text-input-group .form-input-icon {
+.form-text-input-group .form-input-icon {
     color: gray;
     font-size: medium;
 }
 
-/* .form-inner .form-text-input-group input:focus {
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-} */
+.form-inner .form-remember-me-group {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 4px 0px 24px 0px;
+}
+
+.form-remember-me-group input[type="checkbox"] {
+    margin-right: 8px;
+    size: 4px 4px;
+}
+
+.form-remember-me-group label {
+    font-size: small;
+    color: #888;
+}
 
 .form-inner input[type="submit"] {
     display: inline-block;
@@ -89,14 +109,22 @@ form .form-inner .form-text-input-group {
     background-position: 100% 0%;
 }
 
-.form-signup-sites {
+.form-other-signin-group h6 {
+    font-size: 12px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 24px;
+    text-align: center;
+}
+
+.form-other-signin-group .signup-sites {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 12px;
 }
 
-.signup-bt {
+.signup-sites .site-bt {
     display: inline-flex;
     border: 1.3px solid rgb(223, 223, 223);
     align-items: center;
@@ -107,34 +135,23 @@ form .form-inner .form-text-input-group {
     padding: 3px 8px 3px 8px;
     font-size: 12px;
     font-weight: bold;
-}
-
-.form-signup-group h6 {
-    font-size: 12px;
-    font-weight: 400;
-    color: #888;
-    margin-top: 24px;
-    text-align: center;
-}
-
-.signup-icon,
-.signup-bt img {
-    margin-right: 4px;
-}
-
-.signup-bt {
     transition: 0.4s;
 }
 
-.signup-bt img {
-    padding: 3px 0px 3px 0px;
-}
-
-.signup-bt:hover {
+.signup-sites .site-bt:hover {
     background-color: #f0efef;
 }
 
-.action-signup {
+.site-icon {
+    margin-right: 4px;
+}
+
+.site-bt img {
+    margin-right: 4px;
+    padding: 3px 0px 3px 0px;
+}
+
+.form-inner .form-signup {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -143,36 +160,12 @@ form .form-inner .form-text-input-group {
     color: #888;
 }
 
-.action-signup a:visited {
+.form-inner .form-signup a:visited {
     color: #888;
     text-decoration: none;
     font-weight: bold;
 }
 
-.form-remember-me {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin: 4px 0px 24px 0px;
-}
-
-.form-remember-me input[type="checkbox"] {
-    margin-right: 8px;
-    size: 4px 4px;
-}
-
-.form-remember-me label {
-    font-size: small;
-    color: #888;
-}
-
-.link-signup {
+.form-signup .link-signup {
     cursor: pointer;
-}
-
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: 4px;
-    margin-bottom: 4px;
 }
