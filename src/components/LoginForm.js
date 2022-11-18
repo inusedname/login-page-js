@@ -45,7 +45,7 @@ function LoginForm ({ remember, onSubmit, errorMsg, onSignup, onSocialMediaSigni
                             <span style={FacebookStyle}>Facebook</span>
                         </div>
                         <div className="site-bt" onClick={() => onSocialMediaSignin("Google")}>
-                            <img src="https://freesvg.org/img/1534129544.png" alt='google icon' width={15} />
+                            <img src="https://freesvg.org/img/1534129544.png" alt='google icon' />
                             Google
                         </div>
                     </div>
