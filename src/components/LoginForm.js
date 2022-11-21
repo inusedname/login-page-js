@@ -1,28 +1,54 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { EmailOutlined, Google } from '@mui/icons-material'
 import { LockOutlined } from '@mui/icons-material'
 import FacebookIcon from '@mui/icons-material/Facebook';
+import { isAnyTextFieldsEmpty, isValidEmail } from '../validators/LoginFormValidator.js'
+import ErrorPopup from './ErrorPopup.js';
 
 const FacebookStyle = { color: '#4267B2' };
 
-function LoginForm ({ remember, onSubmit, errorMsg, onSignup, onSocialMediaSignin }) {
-    const [details, setDetails] = useState({ email: "", password: "", remember: false })
-    const submitHandler = e => {
-        e.preventDefault();
-        onSubmit(details)
+const submitAvailable = (details) => {
+    const available = !isAnyTextFieldsEmpty(details) && isValidEmail(details.email);
+    return available;
+}
+
+const getErrorDetail = (details) => {
+    let errorDetail = "";
+    if (isAnyTextFieldsEmpty(details)) {
+        errorDetail += "- All required fields must be filled\n";
     }
+    if (!isValidEmail(details.email)) {
+        errorDetail += "- Email is invalid\n";
+    }
+    return errorDetail;
+}
+
+function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
+    const [dontShowError, setDontShowError] = useState(true);
+    const [details, setDetails] = useState({ email: "", password: "", remember: false });
+    const [error, setError] = useState("");
+
+    const submitHandler = e => {
+        setDontShowError(false);
+        e.preventDefault();
+        if (submitAvailable(details)) {
+            onSubmit(details);
+        }
+    }
+
+    useEffect(() => {
+        setError(getErrorDetail(details));
+    }, [details]);
 
     return (
         <form onSubmit={submitHandler}>
             <div className="form-inner">
                 <h2>LOGIN</h2>
-                {(errorMsg !== "") ? (
-                    <div className="form-error-status">
-                        {errorMsg}
-                    </div>
+                {!dontShowError && error !== "" ? (
+                    <ErrorPopup detail={error} onDismiss={() => setDontShowError(true)} />
                 ) : ""}
                 <div className="form-text-input-group">
                     <EmailOutlined className='form-input-icon' />
