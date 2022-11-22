@@ -9,6 +9,14 @@ _Target_
 ![](./img/preview.png)
 _Result_
 
+![](./img/login-failed.png)
+_Login Failed_
+
+![](./img/not-found.png)
+_Account Not Found_
+
+![](./img/home.png)
+_Home Screen_
 
 ## Installation
 
