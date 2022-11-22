@@ -10,6 +10,7 @@ import { isEmpty, isValidEmail } from '../validators/LoginFormValidator.js'
 function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [allowSubmit, setAllowSubmit] = useState(false);
     const [details, setDetails] = useState({ email: "", password: "", remember: false });
 
     const isSubmitAvailable = (details) => {
@@ -36,6 +37,7 @@ function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
     }
     useEffect(() => {
         resetErrors();
+        setAllowSubmit(isSubmitAvailable(details));
     }, [details]);
 
     return (
@@ -56,7 +58,7 @@ function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
                     <input type="checkbox" name="remember-me" id="remember-me" value="remember" onChange={e => setDetails({ ...details, remember: e.target.checked })} />
                     <label htmlFor="checkbox">Remember me</label>
                 </div>
-                <input type="submit" value="LOGIN" />
+                <SubmitButton isEnabled={allowSubmit} />
                 <div className="form-other-signin-group">
                     <h6>Or login with</h6>
                     <div className="signup-sites">
@@ -109,6 +111,22 @@ const FieldError = ({ error }) => {
             {error}
         </div>
     );
+}
+const SubmitButton = ({ isEnabled }) => {
+    if (isEnabled === true)
+        return (<input type="submit" value="LOGIN" />);
+
+    const disabledButtonStyle = {
+        backgroundColor: '#e0e0e0',
+        color: '#9e9e9e',
+        cursor: 'not-allowed',
+        display: 'inline-block',
+        width: '100%',
+        padding: '12px 15px',
+        borderRadius: '2px',
+        fontWeight: 700,
+    };
+    return (<button type="submit" style={disabledButtonStyle}>LOGIN</button>);
 }
 
 const FacebookStyle = { color: '#4267B2' };
