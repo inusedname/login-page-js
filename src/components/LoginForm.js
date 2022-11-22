@@ -10,7 +10,6 @@ import { isEmpty, isValidEmail } from '../validators/LoginFormValidator.js'
 function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const [allowSubmit, setAllowSubmit] = useState(false);
     const [details, setDetails] = useState({ email: "", password: "", remember: false });
 
     const isSubmitAvailable = (details) => {
@@ -37,7 +36,6 @@ function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
     }
     useEffect(() => {
         resetErrors();
-        setAllowSubmit(isSubmitAvailable(details));
     }, [details]);
 
     return (
@@ -58,7 +56,7 @@ function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
                     <input type="checkbox" name="remember-me" id="remember-me" value="remember" onChange={e => setDetails({ ...details, remember: e.target.checked })} />
                     <label htmlFor="checkbox">Remember me</label>
                 </div>
-                <SubmitButton isEnabled={allowSubmit} />
+                <SubmitButton isEnabled={isSubmitAvailable(details)} />
                 <div className="form-other-signin-group">
                     <h6>Or login with</h6>
                     <div className="signup-sites">
