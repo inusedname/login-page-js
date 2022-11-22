@@ -2,61 +2,55 @@
 
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { EmailOutlined, Google } from '@mui/icons-material'
+import { EmailOutlined, WarningAmberRounded } from '@mui/icons-material'
 import { LockOutlined } from '@mui/icons-material'
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { isAnyTextFieldsEmpty, isValidEmail } from '../validators/LoginFormValidator.js'
-import ErrorPopup from './ErrorPopup.js';
-
-const FacebookStyle = { color: '#4267B2' };
-
-const submitAvailable = (details) => {
-    const available = !isAnyTextFieldsEmpty(details) && isValidEmail(details.email);
-    return available;
-}
-
-const getErrorDetail = (details) => {
-    let errorDetail = "";
-    if (isAnyTextFieldsEmpty(details)) {
-        errorDetail += "- All required fields must be filled\n";
-    }
-    if (!isValidEmail(details.email)) {
-        errorDetail += "- Email is invalid\n";
-    }
-    return errorDetail;
-}
+import { isEmpty, isValidEmail } from '../validators/LoginFormValidator.js'
 
 function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
-    const [dontShowError, setDontShowError] = useState(true);
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
     const [details, setDetails] = useState({ email: "", password: "", remember: false });
-    const [error, setError] = useState("");
 
-    const submitHandler = e => {
-        setDontShowError(false);
+    const isSubmitAvailable = (details) => {
+        const available = !isEmpty(details.email) && !isEmpty(details.password) && isValidEmail(details.email);
+        return available;
+    }
+    const updateErrors = (details) => {
+        if (isEmpty(details.email))
+            setEmailError("Email is required");
+        else
+            setEmailError(isValidEmail(details.email) ? "" : "Invalid email");
+        setPasswordError(isEmpty(details.password) ? "Password is required" : "");
+    }
+    const onSubmitClicked = e => {
+        updateErrors(details);
         e.preventDefault();
-        if (submitAvailable(details)) {
+        if (isSubmitAvailable(details)) {
             onSubmit(details);
         }
     }
-
+    const resetErrors = () => {
+        setEmailError("");
+        setPasswordError("");
+    }
     useEffect(() => {
-        setError(getErrorDetail(details));
+        resetErrors();
     }, [details]);
 
     return (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={onSubmitClicked}>
             <div className="form-inner">
                 <h2>LOGIN</h2>
-                {!dontShowError && error !== "" ? (
-                    <ErrorPopup detail={error} onDismiss={() => setDontShowError(true)} />
-                ) : ""}
-                <div className="form-text-input-group">
-                    <EmailOutlined className='form-input-icon' />
-                    <input type="email" name='email' id='email' placeholder='Email' onChange={e => setDetails({ ...details, email: e.target.value })} />
+                <div className="text-input-with-error">
+                    <TextField placeholder="Email" icon={<EmailOutlined fontSize='small' />} type="email"
+                        onChange={e => setDetails({ ...details, email: e.target.value })} />
+                    <FieldError error={emailError} />
                 </div>
-                <div className="form-text-input-group">
-                    <LockOutlined className='form-input-icon' />
-                    <input type="password" name='password' id='password' placeholder='Password' onChange={e => setDetails({ ...details, password: e.target.value })} />
+                <div className="text-input-with-error">
+                    <TextField placeholder="Password" icon={<LockOutlined fontSize='small' />} type="password"
+                        onChange={e => setDetails({ ...details, password: e.target.value })} />
+                    <FieldError error={passwordError} />
                 </div>
                 <div className="form-remember-me-group">
                     <input type="checkbox" name="remember-me" id="remember-me" value="remember" onChange={e => setDetails({ ...details, remember: e.target.checked })} />
@@ -83,5 +77,40 @@ function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
         </form>
     )
 }
+
+const TextField = ({ placeholder, icon, onChange, type }) => {
+    return (
+        <div className="form-text-input-group">
+            <div className="form-input-icon">
+                {icon}
+            </div>
+            <input type={type} name={type} id={type} placeholder={placeholder} onChange={onChange} />
+        </div>
+    );
+}
+const FieldError = ({ error }) => {
+
+    const errorStyle = {
+        marginLeft: '0px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        color: 'red',
+        fontSize: '0.7rem',
+        marginTop: '0.3rem',
+    };
+
+    if (error === "")
+        return null;
+    return (
+        <div className="form-error" style={errorStyle}>
+            <WarningAmberRounded fontSize='inherit  ' style={{ marginRight: '0.5rem' }} />
+            {error}
+        </div>
+    );
+}
+
+const FacebookStyle = { color: '#4267B2' };
 
 export default LoginForm

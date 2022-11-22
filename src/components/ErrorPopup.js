@@ -1,15 +1,14 @@
 import { CloseRounded, WarningAmberRounded } from '@mui/icons-material'
 import React from 'react'
-import '../styles/ErrorPopup.css'
 
-const ErrorPopup = (props) => {
+const ErrorPopup = ({ detail, onDismiss }) => {
     return (
         <div style={ContainerStyle}>
             <div className="error-popup" style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                 <WarningAmberRounded fontSize='large' style={{ marginBottom: '8px' }} />
-                {props.detail}
+                {detail}
             </div>
-            <div className="bt-close" onClick={props.onDismiss}><CloseRounded fontSize='small'/></div>
+            <div className="bt-close" onClick={onDismiss}><CloseRounded fontSize='small' /></div>
         </div>
 
     )

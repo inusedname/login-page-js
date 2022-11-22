@@ -1,67 +1,66 @@
 import React, { useState } from "react";
 import LoginForm from "./components/LoginForm";
-import { Authenticate } from "./data/AccountProvider";
+import { authenticateUser } from "./data/AccountProvider";
 import { HomeScreen } from "./components/HomeScreen";
 import ErrorPopup from "./components/ErrorPopup";
-import { display } from "@mui/system";
 
 function App () {
 
     const [user, setUser] = useState(null);
-    const [error, setError] = useState("");
+    const [responseErrorMsg, setResponseErrorMsg] = useState("");
 
-    const Signup = () => {
-        alert("User want to signup");
-    }
-
-    const Login = details => {
-        const user = Authenticate(details);
+    const onLoginFormSubmitted = details => {
+        const user = authenticateUser(details);
         if (user == null) {
-            setError("Not found account");
+            setResponseErrorMsg("Not found account");
         } else {
-            setError("");
+            setResponseErrorMsg("");
             setUser(user);
         }
     }
-
-    const Signout = () => {
+    const onLogoutClicked = () => {
         setUser(null);
     }
-
+    const onSignupClicked = () => {
+        alert("User want to signup");
+    }
+    const onSocialMediaSelected = name => {
+        let msg = "User want to sign in through ";
+        switch (name) {
+            case "Facebook":
+                msg += 'Facebook';
+                break;
+            case "Google":
+                msg += 'Google';
+                break;
+            default:
+                break;
+        }
+        alert(msg)
+    }
+    const onErrorMsgClosed = () => {
+        setResponseErrorMsg("");
+    }
     return (
         <div className="App">
             <div className="not-found" style={{ width: '335px' }}>
                 {
-                    error !== "" ?
-                        <ErrorPopup detail={error} onDismiss={() => setError("")} /> :
+                    responseErrorMsg !== "" ?
+                        <ErrorPopup detail={responseErrorMsg} onDismiss={onErrorMsgClosed} /> :
                         ""
                 }
             </div>
             {
                 user == null ?
-                    <LoginForm onSubmit={Login}
-                        onSignup={Signup}
-                        onSocialMediaSignin={SocialMediaSignin}
+                    <LoginForm onSubmit={onLoginFormSubmitted}
+                        onSignup={onSignupClicked}
+                        onSocialMediaSignin={onSocialMediaSelected}
                     /> :
                     <HomeScreen user={user}
-                        onLogoutClick={Signout} />
+                        onLogoutClick={onLogoutClicked} />
             }
         </div>
     );
-}
-
-const SocialMediaSignin = name => {
-    const msg = "User want to sign in through ";
-    switch (name) {
-        case "Facebook":
-            alert(msg + "Facebook")
-            break;
-        case "Google":
-            alert(msg + "Google")
-            break;
-        default:
-            break;
-    }
 }
 
 export default App;

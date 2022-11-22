@@ -1,5 +1,5 @@
-export const isAnyTextFieldsEmpty = details => {
-    return details.email.trim() == "" || details.password.trim() == "";
+export const isEmpty = str => {
+    return str === "";
 }
 
 export const isValidEmail = (email) => {

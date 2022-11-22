@@ -1,4 +1,4 @@
-const accounts = [
+const users = [
     {
         name: "Quang",
         email: "admin@vstd.com",
@@ -11,9 +11,9 @@ const accounts = [
     }
 ];
 
-export const Authenticate = details => {
+export const authenticateUser = details => {
     let user = null;
-    accounts.forEach((account) => {
+    users.forEach((account) => {
         if (details.email == account.email && details.password == account.password)
             user = { name: account.name, email: account.email };
     });

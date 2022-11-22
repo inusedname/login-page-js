@@ -55,12 +55,12 @@ form .form-inner {
     margin-bottom: 4px;
 }
 
-.form-inner .form-text-input-group {
+.form-text-input-group {
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     width: 275px;
     background-color: #f0efef;
-    margin-bottom: 10px;
     padding: 12px 15px;
 }
 
@@ -71,15 +71,18 @@ form .form-inner {
 }
 
 .form-text-input-group .form-input-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: gray;
-    font-size: medium;
+    size: 1rem;
 }
 
 .form-inner .form-remember-me-group {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 4px 0px 24px 0px;
+    margin: 16px 0px 10px 0px;
 }
 
 .form-remember-me-group input[type="checkbox"] {
