@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
 import { ExitToAppOutlined } from '@mui/icons-material';
 import React from 'react'
 import '../styles/HomeScreen.css'
+import PropTypes from 'prop-types';
 
 export const HomeScreen = ({ user, onLogoutClick }) => {
 
@@ -15,6 +15,11 @@ export const HomeScreen = ({ user, onLogoutClick }) => {
             </div>
         </div>
     );
+}
+
+HomeScreen.propTypes = {
+    user: PropTypes.object.isRequired,
+    onLogoutClick: PropTypes.func.isRequired
 }
 
 const HomeScreenStyle = {

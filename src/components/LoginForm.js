@@ -1,11 +1,10 @@
-/* eslint-disable react/prop-types */
-
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { EmailOutlined, WarningAmberRounded } from '@mui/icons-material'
 import { LockOutlined } from '@mui/icons-material'
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { isEmpty, isValidEmail } from '../validators/LoginFormValidator.js'
+import PropTypes from 'prop-types';
 
 function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
     const [emailError, setEmailError] = useState("");
@@ -17,22 +16,31 @@ function LoginForm ({ onSubmit, onSignup, onSocialMediaSignin }) {
         return available;
     }
     const updateErrors = (details) => {
+        let emailError = "";
+        let passwordError = "";
+
         if (isEmpty(details.email))
-            setEmailError("Email is required");
-        else
-            setEmailError(isValidEmail(details.email) ? "" : "Invalid email");
-        setPasswordError(isEmpty(details.password) ? "Password is required" : "");
+            emailError = "Email is required";
+        else if (!isValidEmail(details.email))
+            emailError = "Invalid email";
+
+        if (isEmpty(details.password))
+            passwordError = "Password is required";
+
+        setEmailError(emailError);
+        setPasswordError(passwordError);
     }
+    const resetErrors = () => {
+        setEmailError("");
+        setPasswordError("");
+    }
+
     const onSubmitClicked = e => {
         updateErrors(details);
         e.preventDefault();
         if (isSubmitAvailable(details)) {
             onSubmit(details);
         }
-    }
-    const resetErrors = () => {
-        setEmailError("");
-        setPasswordError("");
     }
     useEffect(() => {
         resetErrors();
@@ -88,6 +96,7 @@ const TextField = ({ placeholder, icon, onChange, type }) => {
         </div>
     );
 }
+
 const FieldError = ({ error }) => {
 
     const errorStyle = {
@@ -101,31 +110,57 @@ const FieldError = ({ error }) => {
         marginTop: '0.3rem',
     };
 
-    if (error === "")
-        return null;
-    return (
-        <div className="form-error" style={errorStyle}>
-            <WarningAmberRounded fontSize='inherit  ' style={{ marginRight: '0.5rem' }} />
-            {error}
-        </div>
-    );
+    let errorElement = null;
+    if (error)
+        errorElement = (
+            <div className="form-error" style={errorStyle}>
+                <WarningAmberRounded fontSize='inherit' style={{ marginRight: '0.5rem' }} />
+                {error}
+            </div>
+        );
+    return errorElement;
 }
-const SubmitButton = ({ isEnabled }) => {
-    if (isEnabled === true)
-        return (<input type="submit" value="LOGIN" />);
 
-    const disabledButtonStyle = {
-        backgroundColor: '#e0e0e0',
-        color: '#9e9e9e',
-        cursor: 'not-allowed',
-        display: 'inline-block',
-        width: '100%',
-        padding: '12px 15px',
-        borderRadius: '2px',
-        fontWeight: 700,
-    };
-    return (<button type="submit" style={disabledButtonStyle}>LOGIN</button>);
+const SubmitButton = ({ isEnabled }) => {
+    let submitButton = null;
+    if (isEnabled)
+        submitButton = (<input type="submit" value="LOGIN" />);
+    else {
+        const disabledButtonStyle = {
+            backgroundColor: '#e0e0e0',
+            color: '#9e9e9e',
+            cursor: 'not-allowed',
+            display: 'inline-block',
+            width: '100%',
+            padding: '12px 15px',
+            borderRadius: '2px',
+            fontWeight: 700,
+        };
+        submitButton = (<button type="submit" style={disabledButtonStyle}>LOGIN</button>);
+    }
+
+    return submitButton;
 }
+
+
+LoginForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    onSignup: PropTypes.func.isRequired,
+    onSocialMediaSignin: PropTypes.func.isRequired,
+};
+SubmitButton.propTypes = {
+    isEnabled: PropTypes.bool.isRequired,
+}
+FieldError.propTypes = {
+    error: PropTypes.string.isRequired,
+};
+TextField.propTypes = {
+    placeholder: PropTypes.string.isRequired,
+    icon: PropTypes.element.isRequired,
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired,
+};
+
 
 const FacebookStyle = { color: '#4267B2' };
 
